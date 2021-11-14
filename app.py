@@ -68,6 +68,18 @@ def get_data(collection, member):
     return res
 
 
+@app.route("/json/<collection>", methods=["POST"])
+def create_collection(collection):
+    req = request.get_json()
+
+    if collection in Data:
+        res = make_response(jsonify({"error" : "Collections already exists"}))
+        return res
+
+    Data.update({collection: req})
+    res = make_response({"message" : "Collection created"}, 201)
+    return res
+
 if __name__ == '__main__':
     print("Server running in port %s" %(PORT))
     app.run(host=HOST, port=PORT)
