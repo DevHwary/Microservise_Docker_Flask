@@ -28,6 +28,20 @@ def template():
     return render_template("index.html")
 
 
+@app.route("/qstr")
+def query_string():
+    if request.args:
+        req = request.args
+        res = {}
+        for key, value in req.items():
+            res[key] = value
+        
+        res = make_response(jsonify(res), 200)
+        return res
+
+    res = make_response(jsonify({"error" : "No query string"}), 400)
+    return res
+
 
 if __name__ == '__main__':
     print("Server running in port %s" %(PORT))
